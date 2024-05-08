@@ -69,7 +69,7 @@ private fun PokemonCard(pokemon: PokemonListItem) {
             .fillMaxWidth()
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,7 +85,7 @@ private fun PokemonCard(pokemon: PokemonListItem) {
             )
             Column {
                 Text(
-                    pokemon.name ?: "",
+                    pokemon.name,
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Row(

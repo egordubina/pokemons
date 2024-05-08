@@ -28,7 +28,7 @@ data class PokemonDetailApiResponse(
     @SerialName("sprites") val sprites: Sprites, // Спрайты покемона
     @SerialName("stats") val stats: List<Stat>, // Базовые статистики покемона
     @SerialName("types") val types: List<Type>, // Список типов, к котором относится покемон
-    @SerialName("weight") val weight: Int, // Ширина
+    @SerialName("weight") val weight: Int, // Вес покемона
 )
 
 @Serializable
