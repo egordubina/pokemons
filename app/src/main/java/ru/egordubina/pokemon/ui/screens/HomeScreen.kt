@@ -1,30 +1,57 @@
 package ru.egordubina.pokemon.ui.screens
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.launch
+import ru.egordubina.pokemon.data.models.PokemonItemApiResponse
+import ru.egordubina.pokemon.ui.models.PokemonListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(uiState: HomeUiState) {
+    val snackBarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val pokemons = uiState.pokemons.collectAsLazyPagingItems()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = { Text("Покемоны") })
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
-        AnimatedContent(uiState, label = "") {
-            when (it) {
-                is HomeUiState.Content -> HomeContent(
-                    pokemons = it.pokemons,
-                    innerPadding = innerPadding
-                )
-
-                HomeUiState.Error -> HomeError()
-                HomeUiState.Loading -> HomeLoading(innerPadding = innerPadding)
+        if (pokemons.loadState.refresh is LoadState.Loading)
+            HomeLoading(innerPadding = innerPadding)
+        HomeContent(
+            pokemons = pokemons,
+            innerPadding = innerPadding,
+            onDontLoadPokemons = {
+                scope.launch {
+                    refreshPokemons(snackBarHostState, pokemons)
+                }
             }
-        }
+        )
     }
+}
+
+private suspend fun refreshPokemons(
+    snackBarHostState: SnackbarHostState,
+    pokemons: LazyPagingItems<PokemonListItem>
+) {
+    val result = snackBarHostState.showSnackbar(
+        "Покемоны не загрузились",
+        actionLabel = "Повторить",
+        withDismissAction = false
+    )
+    if (result == SnackbarResult.ActionPerformed)
+        pokemons.retry()
 }

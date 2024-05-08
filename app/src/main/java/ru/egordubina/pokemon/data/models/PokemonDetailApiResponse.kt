@@ -3,21 +3,6 @@ package ru.egordubina.pokemon.data.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-//@Serializable
-//data class PokemonDetailResponse(
-//    @SerialName("abilities") val abilities: List<String>,
-//    @SerialName("base_experience") val baseExperience: Int,
-//    val cries: List<String>,
-//    val forms: String,
-//    @SerialName("game_indices") val gameIndices: List<String>,
-//    val height: Int,
-//    @SerialName("held_items") val heldItems: List<String>,
-//    val id: Int,
-//    @SerialName("is_default") val isDefault: Boolean,
-//    @SerialName("location_area_encounters") val locationAreaEncounters: String,
-//    val moves: List<String>,
-//)
-
 /**
  * @see <a href="https://pokeapi.co/docs/v2">Full API Doc</a>
  * @see <a href="https://pokeapi.co/docs/v2#pokemon">Current API Doc</a>
@@ -26,23 +11,23 @@ import kotlinx.serialization.Serializable
 data class PokemonDetailApiResponse(
     @SerialName("abilities") val abilities: List<Ability>, // Способности
     @SerialName("base_experience") val baseExperience: Int, // Опыт
-    @SerialName("cries") val cries: Cries, // Звук, скип
+//    @SerialName("cries") val cries: Cries, // Звук, скип
     @SerialName("forms") val forms: List<PokemonForm>, // Форма покемона, например бульбазавр
-    @SerialName("game_indices") val gameIndices: List<GameIndice>, // Список индексов по поколениям (?)
+//    @SerialName("game_indices") val gameIndices: List<GameIndice>, // Список индексов по поколениям (?)
     @SerialName("height") val height: Int, // Высота
     @SerialName("held_items") val heldItems: List<HeldItem>, // Список предметов, которые могут быть у этого покемона при (первой?) встрече
     @SerialName("id") val id: Int, // id
-    @SerialName("is_default") val isDefault: Boolean, // ?
+//    @SerialName("is_default") val isDefault: Boolean, // ?
     @SerialName("location_area_encounters") val locationAreaEncounters: String, // Ссылка на список локаций, где этот покемон есть
     @SerialName("moves") val moves: List<Move>, // Список приёмов и методов изучения (?)
     @SerialName("name") val name: String, // Имя
     @SerialName("order") val order: Int, // Для сортировки
-    @SerialName("past_abilities") val pastAbilities: List<String>, // Неизвестно
-    @SerialName("past_types") val pastTypes: List<String>, // Список деталей
+//    @SerialName("past_abilities") val pastAbilities: List<String>, // Неизвестно
+//    @SerialName("past_types") val pastTypes: List<String>, // Список деталей
     @SerialName("species") val species: Species, // Вид покемона, например бульбазавр (???)
     @SerialName("sprites") val sprites: Sprites, // Спрайты покемона
     @SerialName("stats") val stats: List<Stat>, // Базовые статистики покемона
-    @SerialName("types") val types: List<Type>, // СПИсок типов, к котором относится покемон
+    @SerialName("types") val types: List<Type>, // Список типов, к котором относится покемон
     @SerialName("weight") val weight: Int, // Ширина
 )
 
@@ -91,15 +76,15 @@ data class Species(
 
 @Serializable
 data class Sprites(
-    @SerialName("back_default") val backDefault: String,
-    @SerialName("back_female") val backFemale: String,
-    @SerialName("back_shiny") val backShiny: String,
-    @SerialName("back_shiny_female") val backShinyFemale: String,
-    @SerialName("front_default") val frontDefault: String,
-    @SerialName("front_female") val frontFemale: String,
-    @SerialName("front_shiny") val frontShiny: String,
-    @SerialName("front_shiny_female") val frontShinyFemale: String,
-    @SerialName("other") val other: Other,
+    @SerialName("back_default") val backDefault: String?,
+    @SerialName("back_female") val backFemale: String?,
+    @SerialName("back_shiny") val backShiny: String?,
+    @SerialName("back_shiny_female") val backShinyFemale: String?,
+    @SerialName("front_default") val frontDefault: String?,
+    @SerialName("front_female") val frontFemale: String?,
+    @SerialName("front_shiny") val frontShiny: String?,
+    @SerialName("front_shiny_female") val frontShinyFemale: String?,
+//    @SerialName("other") val other: Other,
 //    @SerialName("versions") val versions: Versions,
 )
 

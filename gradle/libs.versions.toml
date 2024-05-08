@@ -18,6 +18,7 @@ retrofit2KotlinxSerializationConverter = "1.0.0"
 serializationJson = "1.6.3"
 paging = "3.2.1"
 paging-compose = "3.3.0-rc01"
+coil = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +45,7 @@ retrofit2-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit"
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serializationJson" }
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
