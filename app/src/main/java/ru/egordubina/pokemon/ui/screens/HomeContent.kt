@@ -19,11 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import ru.egordubina.pokemon.ui.models.PokemonListItem
 import ru.egordubina.pokemon.ui.theme.PokemonTheme
 
@@ -67,14 +69,19 @@ private fun PokemonCard(pokemon: PokemonListItem) {
             .fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
         ) {
             AsyncImage(
-                model = pokemon.image,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(pokemon.image)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(96.dp),
             )
             Column {
                 Text(
@@ -107,6 +114,15 @@ private fun PokemonCard(pokemon: PokemonListItem) {
 @Composable
 private fun PokemonCardPreview() {
     PokemonTheme {
-        PokemonCard(pokemon = PokemonListItem(0, "", "", "Bulbasaur", 100, 10, 100))
+        PokemonCard(
+            pokemon = PokemonListItem(
+                id = 0,
+                image = "",
+                name = "",
+                baseExperience = 100,
+                height = 10,
+                weight = 100
+            )
+        )
     }
 }

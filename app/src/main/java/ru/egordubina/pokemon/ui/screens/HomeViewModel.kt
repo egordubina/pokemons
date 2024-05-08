@@ -32,7 +32,6 @@ class HomeViewModel @Inject constructor(
                     pagingData.map { pokemon ->
                         PokemonListItem(
                             id = pokemon.id,
-                            url = pokemon.url,
                             image = pokemon.image,
                             name = pokemon.name,
                             baseExperience = pokemon.baseExperience,

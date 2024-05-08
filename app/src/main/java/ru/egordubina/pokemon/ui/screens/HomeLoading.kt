@@ -68,7 +68,7 @@ fun CardSkeleton() {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(96.dp)
                     .padding(8.dp)
                     .clip(RoundedCornerShape(100))
                     .background(MaterialTheme.colorScheme.surfaceBright)
