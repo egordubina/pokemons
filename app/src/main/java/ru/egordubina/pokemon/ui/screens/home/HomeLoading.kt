@@ -1,4 +1,4 @@
-package ru.egordubina.pokemon.ui.screens
+package ru.egordubina.pokemon.ui.screens.home
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode

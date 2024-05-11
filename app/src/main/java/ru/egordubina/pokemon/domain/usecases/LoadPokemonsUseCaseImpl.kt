@@ -11,7 +11,7 @@ import javax.inject.Inject
 class LoadPokemonsUseCaseImpl @Inject constructor(
     private val pokemonRepository: PokemonRepository,
 ) : LoadPokemonsUseCase {
-    override suspend fun loadPokemons(): Flow<PagingData<Pokemon>> =
+    override fun loadPokemons(): Flow<PagingData<Pokemon>> =
         pokemonRepository.loadAllPokemons().map { pagingData ->
             pagingData.map {
                 val pokemonDetailInfo = pokemonRepository.loadPokemonDetailInfo(it.name)

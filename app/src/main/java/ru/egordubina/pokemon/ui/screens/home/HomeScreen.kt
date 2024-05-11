@@ -1,4 +1,4 @@
-package ru.egordubina.pokemon.ui.screens
+package ru.egordubina.pokemon.ui.screens.home
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,15 +14,13 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
-import ru.egordubina.pokemon.data.models.PokemonItemApiResponse
 import ru.egordubina.pokemon.ui.models.PokemonListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(uiState: HomeUiState) {
+fun HomeScreen(pokemons: LazyPagingItems<PokemonListItem>) {
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val pokemons = uiState.pokemons.collectAsLazyPagingItems()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = { Text("Покемоны") })

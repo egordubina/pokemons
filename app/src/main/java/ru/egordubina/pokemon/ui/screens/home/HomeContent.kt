@@ -1,4 +1,4 @@
-package ru.egordubina.pokemon.ui.screens
+package ru.egordubina.pokemon.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.egordubina.pokemon.ui.models.PokemonListItem
@@ -46,16 +48,17 @@ fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.consumeWindowInsets(innerPadding)
     ) {
-        items(pokemons.itemCount) {
+        items(pokemons.itemCount, key = pokemons.itemKey { it.id }, contentType = pokemons.itemContentType { "Pokemons " }) {
             pokemons[it]?.let { pokemon -> PokemonCard(pokemon) }
         }
-        if (pokemons.loadState.append is LoadState.Loading)
+        if (pokemons.loadState.append == LoadState.Loading)
             repeat(3) {
                 item {
                     CardSkeleton()
                 }
             }
-        if (pokemons.loadState.hasError) onDontLoadPokemons()
+        if (pokemons.loadState.append is LoadState.Error)
+            onDontLoadPokemons()
         item {
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
         }

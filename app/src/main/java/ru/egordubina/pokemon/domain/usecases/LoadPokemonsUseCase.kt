@@ -6,5 +6,5 @@ import ru.egordubina.pokemon.data.models.PokemonItemApiResponse
 import ru.egordubina.pokemon.domain.models.Pokemon
 
 interface LoadPokemonsUseCase {
-    suspend fun loadPokemons(): Flow<PagingData<Pokemon>>
+    fun loadPokemons(): Flow<PagingData<Pokemon>>
 }
