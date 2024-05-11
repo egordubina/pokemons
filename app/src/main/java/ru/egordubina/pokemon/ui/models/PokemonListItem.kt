@@ -12,12 +12,10 @@ data class PokemonListItem(
 )
 
 fun Pokemon.asUiItem(): PokemonListItem = PokemonListItem(
-    id = this.id,
-    image = this.image,
-    name = this.name,
-    baseExperience = this.baseExperience,
-    height = this.height,
-    weight = this.weight,
+    id = this.id!!,
+    image = this.image!!,
+    name = this.name!!,
+    baseExperience = this.baseExperience!!,
+    height = this.height!!,
+    weight = this.weight!!,
 )
-
-fun List<Pokemon>.asUiItemsList(): List<PokemonListItem> = this.map { pokemon -> pokemon.asUiItem() }

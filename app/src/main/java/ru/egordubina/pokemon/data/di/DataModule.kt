@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import ru.egordubina.pokemon.BuildConfig
 import ru.egordubina.pokemon.data.api.PokemonsApiService
@@ -16,7 +17,9 @@ import ru.egordubina.pokemon.data.datasources.PokemonsPagingSource
 import ru.egordubina.pokemon.data.models.PokemonItemApiResponse
 import ru.egordubina.pokemon.data.repository.PokemonRepositoryImpl
 import ru.egordubina.pokemon.domain.repository.PokemonRepository
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)

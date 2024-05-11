@@ -35,7 +35,6 @@ import ru.egordubina.pokemon.ui.theme.PokemonTheme
 fun HomeContent(
     pokemons: LazyPagingItems<PokemonListItem>,
     innerPadding: PaddingValues,
-    onDontLoadPokemons: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -48,17 +47,18 @@ fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.consumeWindowInsets(innerPadding)
     ) {
-        items(pokemons.itemCount, key = pokemons.itemKey { it.id }, contentType = pokemons.itemContentType { "Pokemons " }) {
-            pokemons[it]?.let { pokemon -> PokemonCard(pokemon) }
+        items(
+            count = pokemons.itemCount,
+            key = pokemons.itemKey { it.id },
+            contentType = pokemons.itemContentType { "Pokemons " },
+        ) {
+            pokemons[it]?.let {  pokemon ->
+                if (pokemon.id != -1)
+                    PokemonCard(pokemon)
+            }
         }
         if (pokemons.loadState.append == LoadState.Loading)
-            repeat(3) {
-                item {
-                    CardSkeleton()
-                }
-            }
-        if (pokemons.loadState.append is LoadState.Error)
-            onDontLoadPokemons()
+            repeat(3) { item { CardSkeleton() } }
         item {
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
         }
