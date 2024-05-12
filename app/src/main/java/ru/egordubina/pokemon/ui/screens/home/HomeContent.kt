@@ -52,13 +52,12 @@ fun HomeContent(
             key = pokemons.itemKey { it.id },
             contentType = pokemons.itemContentType { "Pokemons " },
         ) {
-            pokemons[it]?.let {  pokemon ->
-                if (pokemon.id != -1)
-                    PokemonCard(pokemon)
-            }
+            val item = pokemons[it]
+            if (item != null)
+                PokemonCard(item)
+            else
+                CardSkeleton()
         }
-        if (pokemons.loadState.append == LoadState.Loading)
-            repeat(3) { item { CardSkeleton() } }
         item {
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
         }

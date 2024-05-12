@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PokemonsApiResponse(
-//    @SerialName("count") val count: Int,
+    @SerialName("count") val count: Int,
 //    @SerialName("next") val next: String?,
 //    @SerialName("previous") val previous: String?,
     @SerialName("results") val results: List<PokemonItemApiResponse>,

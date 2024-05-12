@@ -36,7 +36,6 @@ import ru.egordubina.pokemon.ui.models.PokemonListItem
 @Composable
 fun HomeScreen(pokemons: LazyPagingItems<PokemonListItem>) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = { Text("Покемоны") })

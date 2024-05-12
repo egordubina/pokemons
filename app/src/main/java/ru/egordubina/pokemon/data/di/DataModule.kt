@@ -44,7 +44,13 @@ object DataModule {
     @Singleton
     fun providePokemonPager(pokemonsApiService: PokemonsApiService): Pager<Int, PokemonItemApiResponse> =
         Pager(
-            config = PagingConfig(pageSize = 40, prefetchDistance = 20),
+            config = PagingConfig(
+                pageSize = 20,
+                initialLoadSize = 20,
+                prefetchDistance = 10,
+                enablePlaceholders = true,
+                jumpThreshold = 20 * 2
+            ),
             pagingSourceFactory = { PokemonsPagingSource(pokemonsApiService = pokemonsApiService) }
         )
 
