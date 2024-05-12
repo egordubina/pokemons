@@ -43,7 +43,7 @@ fun HomeScreen(pokemons: LazyPagingItems<PokemonListItem>) {
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
         when (pokemons.loadState.refresh) {
-            is LoadState.Loading -> HomeLoading(innerPadding = innerPadding)
+            is LoadState.Loading -> if (pokemons.itemCount == 0) HomeLoading(innerPadding = innerPadding)
             is LoadState.Error -> HomeError(onRefreshButtonClick = { pokemons.retry() })
             is LoadState.NotLoading -> {}
         }

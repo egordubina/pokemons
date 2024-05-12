@@ -46,10 +46,11 @@ object DataModule {
         Pager(
             config = PagingConfig(
                 pageSize = 20,
-                initialLoadSize = 20,
+                initialLoadSize = 20 * 2,
                 prefetchDistance = 10,
                 enablePlaceholders = true,
-                jumpThreshold = 20 * 2
+                jumpThreshold = 20 * 2,
+                maxSize = 100
             ),
             pagingSourceFactory = { PokemonsPagingSource(pokemonsApiService = pokemonsApiService) }
         )
