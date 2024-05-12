@@ -4,7 +4,7 @@ data class PokemonUiState(
     val isLoading: Boolean = true,
     val isError: Boolean = false,
     val name: String = "",
-    val image: String = "",
+    val images: List<String> = emptyList(),
     val baseExperience: Int? = null,
     val height: Int = 0,
     val weight: Int = 0,

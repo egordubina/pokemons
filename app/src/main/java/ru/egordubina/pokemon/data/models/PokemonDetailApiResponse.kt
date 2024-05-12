@@ -430,7 +430,16 @@ data class Stat(
 
 fun PokemonDetailApiResponse.asDomain(): Pokemon = Pokemon(
     id = this.id,
-    image = this.sprites.frontDefault ?: "",
+    images = listOf(
+        this.sprites.backDefault ?: "",
+        this.sprites.backFemale ?: "",
+        this.sprites.backShiny ?: "",
+        this.sprites.backShinyFemale ?: "",
+        this.sprites.frontDefault ?: "",
+        this.sprites.frontFemale ?: "",
+        this.sprites.frontShiny ?: "",
+        this.sprites.frontShinyFemale ?: "",
+    ),
     name = this.name,
     baseExperience = this.baseExperience,
     height = this.height,

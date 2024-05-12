@@ -1,8 +1,8 @@
 package ru.egordubina.pokemon.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.launch
 import ru.egordubina.pokemon.ui.screens.detail.PokemonScreen
 import ru.egordubina.pokemon.ui.screens.detail.PokemonViewModel
 import ru.egordubina.pokemon.ui.screens.home.HomeScreen
@@ -18,6 +19,7 @@ import ru.egordubina.pokemon.ui.screens.home.HomeViewModel
 
 @Composable
 fun PokemonNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+    val scope = rememberCoroutineScope()
     NavHost(navController = navController, startDestination = AppDestinations.HOME.name) {
         composable(AppDestinations.HOME.name) {
             val vm = hiltViewModel<HomeViewModel>()
@@ -33,7 +35,11 @@ fun PokemonNavHost(navController: NavHostController, modifier: Modifier = Modifi
         ) {
             val vm = hiltViewModel<PokemonViewModel>()
             val uiState = vm.uiState.collectAsState().value
-            PokemonScreen(uiState = uiState, onBackButtonClick = { navController.navigateUp() })
+            PokemonScreen(
+                uiState = uiState,
+                onBackButtonClick = { navController.navigateUp() },
+                onRefreshButtonClick = { scope.launch { vm.loadPokemon() } }
+            )
         }
     }
 }

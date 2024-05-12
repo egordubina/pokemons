@@ -51,8 +51,8 @@ fun HomeContent(
     ) {
         items(
             count = pokemons.itemCount,
-//            key = pokemons.itemKey { it.id },
-//            contentType = pokemons.itemContentType { "Pokemons " },
+            key = pokemons.itemKey { it.id },
+            contentType = pokemons.itemContentType { "Pokemons " },
         ) {
             val item = pokemons[it]
             if (item != null)

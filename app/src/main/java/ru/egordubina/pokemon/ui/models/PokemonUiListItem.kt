@@ -13,7 +13,7 @@ data class PokemonUiListItem(
 
 fun Pokemon.asUiItem(): PokemonUiListItem = PokemonUiListItem(
     id = this.id,
-    image = this.image,
+    image = this.images[4].ifEmpty { this.images[0].ifEmpty { this.images[5].ifEmpty { this.images[1] } } },
     name = this.name,
     baseExperience = this.baseExperience,
     height = this.height,

@@ -30,17 +30,24 @@ class PokemonViewModel @Inject constructor(
     init {
         job?.cancel()
         job = viewModelScope.launch(Dispatchers.IO) {
+            loadPokemon()
+        }
+    }
+
+    suspend fun loadPokemon() {
+        job = viewModelScope.launch(Dispatchers.IO) {
             try {
                 _uiState.update { it.copy(isLoading = true) }
                 val pokemon = loadPokemonsUseCase.loadPokemonByName(pokemonName)
                 _uiState.update {
                     it.copy(
                         name = pokemon.name,
-                        image = pokemon.image,
+                        images = pokemon.images.filter { url -> url.isNotEmpty() },
                         baseExperience = pokemon.baseExperience,
                         height = pokemon.height,
                         weight = pokemon.weight,
-                        pokemonStats = pokemon.pokemonStats
+                        pokemonStats = pokemon.pokemonStats,
+                        isError = false
                     )
                 }
             } catch (e: Exception) {

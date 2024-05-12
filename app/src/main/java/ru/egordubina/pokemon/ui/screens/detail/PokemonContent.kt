@@ -1,5 +1,6 @@
 package ru.egordubina.pokemon.ui.screens.detail
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -28,9 +31,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.egordubina.pokemon.ui.theme.pokemonFontFamily
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun PokemonContent(uiState: PokemonUiState, innerPadding: PaddingValues) {
+    val pagerState = rememberPagerState(pageCount = { uiState.images.size })
     Column(
         verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier
@@ -44,11 +48,13 @@ fun PokemonContent(uiState: PokemonUiState, innerPadding: PaddingValues) {
             .verticalScroll(rememberScrollState())
             .consumeWindowInsets(innerPadding)
     ) {
-        AsyncImage(
-            model = uiState.image,
-            contentDescription = null,
-            modifier = Modifier.aspectRatio(1f),
-        )
+        HorizontalPager(state = pagerState) {
+            AsyncImage(
+                model = uiState.images[it],
+                contentDescription = null,
+                modifier = Modifier.aspectRatio(1f),
+            )
+        }
         Text(
             text = uiState.name,
             fontFamily = pokemonFontFamily,
