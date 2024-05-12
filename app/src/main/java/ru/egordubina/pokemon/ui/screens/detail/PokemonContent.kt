@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
@@ -31,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.egordubina.pokemon.ui.theme.pokemonFontFamily
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PokemonContent(uiState: PokemonUiState, innerPadding: PaddingValues) {
     val pagerState = rememberPagerState(pageCount = { uiState.images.size })
@@ -67,96 +68,66 @@ fun PokemonContent(uiState: PokemonUiState, innerPadding: PaddingValues) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Surface(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(0.33f)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(text = "Height", fontFamily = pokemonFontFamily)
-                        Text(
-                            text = "${uiState.height}",
-                            fontFamily = pokemonFontFamily,
-                            style = MaterialTheme.typography.headlineLarge,
-                            fontSize = 32.sp
-                        )
-                    }
-                }
-                Surface(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(0.33f)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(text = "Weight", fontFamily = pokemonFontFamily)
-                        Text(
-                            text = "${uiState.weight}",
-                            fontFamily = pokemonFontFamily,
-                            style = MaterialTheme.typography.headlineLarge,
-                            fontSize = 32.sp
-                        )
-                    }
-                }
+                PokemonStatCard(text = "Height", value = uiState.height.toString())
+                PokemonStatCard(text = "Weight", value = uiState.weight.toString())
                 if (uiState.baseExperience != null)
-                    Surface(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(0.33f)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(text = "Base exp", fontFamily = pokemonFontFamily)
-                            Text(
-                                text = "${uiState.baseExperience}",
-                                fontFamily = pokemonFontFamily,
-                                style = MaterialTheme.typography.headlineLarge,
-                                fontSize = 32.sp
-                            )
-                        }
-                    }
+                    PokemonStatCard(text = "Base exp", value = uiState.baseExperience.toString())
             }
         }
-        Column(
+        PokemonStats(uiState.pokemonStats)
+        Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun PokemonStats(pokemonStats: List<PokemonStat>) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text("Stats", fontFamily = pokemonFontFamily, fontSize = 32.sp)
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text("Stats", fontFamily = pokemonFontFamily, fontSize = 32.sp)
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                uiState.pokemonStats.forEach {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ) {
-
-                        Text(
-                            text = "${it.statName}: ${it.baseExp}",
-                            fontFamily = pokemonFontFamily,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
+            pokemonStats.forEach {
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ) {
+                    Text(
+                        text = "${it.statName}: ${it.baseExp}",
+                        fontFamily = pokemonFontFamily,
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
             }
         }
-        Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+    }
+}
+
+@Composable
+private fun RowScope.PokemonStatCard(text: String, value: String) {
+    Surface(
+        color = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .weight(0.33f)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = text, fontFamily = pokemonFontFamily)
+            Text(
+                text = value,
+                fontFamily = pokemonFontFamily,
+                style = MaterialTheme.typography.headlineLarge,
+                fontSize = 32.sp
+            )
+        }
     }
 }

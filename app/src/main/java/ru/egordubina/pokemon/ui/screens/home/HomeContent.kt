@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,6 +72,7 @@ private fun PokemonCard(pokemon: PokemonUiListItem, onPokemonClick: (Int) -> Uni
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(MaterialTheme.shapes.large)
             .clickable { onPokemonClick(pokemon.id) }
     ) {
         Row(
@@ -99,25 +101,22 @@ private fun PokemonCard(pokemon: PokemonUiListItem, onPokemonClick: (Int) -> Uni
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     if (pokemon.baseExperience != null)
-                        Text(
-                            "Base exp: ${pokemon.baseExperience}",
-                            fontFamily = pokemonFontFamily,
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                    Text(
-                        "Weight: ${pokemon.weight}",
-                        fontFamily = pokemonFontFamily,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                    Text(
-                        "Height: ${pokemon.height}",
-                        fontFamily = pokemonFontFamily,
-                        style = MaterialTheme.typography.labelLarge
-                    )
+                        PokemonStat("Base exp: ${pokemon.baseExperience}")
+                    PokemonStat("Weight: ${pokemon.weight}")
+                    PokemonStat("Height: ${pokemon.height}")
                 }
             }
         }
     }
+}
+
+@Composable
+private fun PokemonStat(text: String) {
+    Text(
+        text,
+        fontFamily = pokemonFontFamily,
+        style = MaterialTheme.typography.labelLarge
+    )
 }
 
 @Preview
