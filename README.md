@@ -8,3 +8,6 @@
 - Coroutines
 
 # Скриншоты
+![](screens/main.png)
+![](screens/detail.png)
+![](screens/not_load.png)

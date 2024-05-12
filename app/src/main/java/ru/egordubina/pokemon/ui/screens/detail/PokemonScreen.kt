@@ -9,6 +9,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import ru.egordubina.pokemon.ui.screens.home.HomeError
 import ru.egordubina.pokemon.ui.theme.PokemonTheme
@@ -19,12 +20,19 @@ import ru.egordubina.pokemon.ui.theme.pokemonFontFamily
 fun PokemonScreen(
     uiState: PokemonUiState,
     onBackButtonClick: () -> Unit,
-    onRefreshButtonClick: () -> Unit
+    onRefreshButtonClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(uiState.name, fontFamily = pokemonFontFamily) },
+                title = {
+                    Text(
+                        uiState.name,
+                        fontFamily = pokemonFontFamily,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBackButtonClick) {
                         Icon(
