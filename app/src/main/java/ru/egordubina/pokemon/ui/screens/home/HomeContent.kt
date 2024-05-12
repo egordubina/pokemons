@@ -1,5 +1,6 @@
 package ru.egordubina.pokemon.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,20 +23,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import ru.egordubina.pokemon.ui.models.PokemonListItem
+import ru.egordubina.pokemon.ui.models.PokemonUiListItem
 import ru.egordubina.pokemon.ui.theme.PokemonTheme
+import ru.egordubina.pokemon.ui.theme.pokemonFontFamily
 
 @Composable
 fun HomeContent(
-    pokemons: LazyPagingItems<PokemonListItem>,
+    pokemons: LazyPagingItems<PokemonUiListItem>,
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    onPokemonClick: (Int) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(
@@ -54,7 +56,7 @@ fun HomeContent(
         ) {
             val item = pokemons[it]
             if (item != null)
-                PokemonCard(item)
+                PokemonCard(item, onPokemonClick)
             else
                 CardSkeleton()
         }
@@ -65,10 +67,11 @@ fun HomeContent(
 }
 
 @Composable
-private fun PokemonCard(pokemon: PokemonListItem) {
+private fun PokemonCard(pokemon: PokemonUiListItem, onPokemonClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onPokemonClick(pokemon.id) }
     ) {
         Row(
             verticalAlignment = Alignment.Top,
@@ -88,6 +91,7 @@ private fun PokemonCard(pokemon: PokemonListItem) {
             Column {
                 Text(
                     pokemon.name,
+                    fontFamily = pokemonFontFamily,
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Row(
@@ -96,14 +100,17 @@ private fun PokemonCard(pokemon: PokemonListItem) {
                 ) {
                     Text(
                         "Base exp: ${pokemon.baseExperience}",
+                        fontFamily = pokemonFontFamily,
                         style = MaterialTheme.typography.labelLarge
                     )
                     Text(
                         "Weight: ${pokemon.weight}",
+                        fontFamily = pokemonFontFamily,
                         style = MaterialTheme.typography.labelLarge
                     )
                     Text(
                         "Height: ${pokemon.height}",
+                        fontFamily = pokemonFontFamily,
                         style = MaterialTheme.typography.labelLarge
                     )
                 }
@@ -117,14 +124,15 @@ private fun PokemonCard(pokemon: PokemonListItem) {
 private fun PokemonCardPreview() {
     PokemonTheme {
         PokemonCard(
-            pokemon = PokemonListItem(
+            pokemon = PokemonUiListItem(
                 id = 0,
                 image = "",
-                name = "",
+                name = "Bulbasaur",
                 baseExperience = 100,
                 height = 10,
                 weight = 100
-            )
+            ),
+            onPokemonClick = {}
         )
     }
 }

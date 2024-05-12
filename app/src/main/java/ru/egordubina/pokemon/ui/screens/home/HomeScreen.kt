@@ -3,7 +3,6 @@ package ru.egordubina.pokemon.ui.screens.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -19,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,18 +25,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
-import kotlinx.coroutines.launch
 import ru.egordubina.pokemon.R
-import ru.egordubina.pokemon.ui.models.PokemonListItem
+import ru.egordubina.pokemon.ui.models.PokemonUiListItem
+import ru.egordubina.pokemon.ui.theme.pokemonFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(pokemons: LazyPagingItems<PokemonListItem>) {
+fun HomeScreen(
+    pokemons: LazyPagingItems<PokemonUiListItem>,
+    onPokemonClick: (Int) -> Unit,
+) {
     val snackBarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Покемоны") })
+            CenterAlignedTopAppBar(title = { Text("Poke", fontFamily = pokemonFontFamily) })
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
@@ -58,6 +58,7 @@ fun HomeScreen(pokemons: LazyPagingItems<PokemonListItem>) {
             }
         HomeContent(
             pokemons = pokemons,
+            onPokemonClick = onPokemonClick,
             innerPadding = innerPadding
         )
     }

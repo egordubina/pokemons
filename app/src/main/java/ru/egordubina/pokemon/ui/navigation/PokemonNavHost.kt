@@ -21,15 +21,18 @@ fun PokemonNavHost(navController: NavHostController, modifier: Modifier = Modifi
         composable(AppDestinations.HOME.name) {
             val vm = hiltViewModel<HomeViewModel>()
             val pokemons = vm.pokemonsList.collectAsLazyPagingItems()
-            HomeScreen(pokemons = pokemons)
+            HomeScreen(
+                pokemons = pokemons,
+                onPokemonClick = { navController.navigate("${AppDestinations.DETAIL.name}/$it") }
+            )
         }
         composable(
-            "${AppDestinations.DETAIL.name}/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
+            "${AppDestinations.DETAIL.name}/{pokemonName}",
+            arguments = listOf(navArgument("pokemonName") { type = NavType.StringType })
         ) {
             val vm = hiltViewModel<PokemonViewModel>()
             val uiState = vm.uiState.collectAsState().value
-            PokemonScreen(uiState = uiState)
+            PokemonScreen(uiState = uiState, onBackButtonClick = { navController.navigateUp() })
         }
     }
 }

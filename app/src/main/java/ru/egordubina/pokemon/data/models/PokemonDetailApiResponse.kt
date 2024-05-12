@@ -2,6 +2,8 @@ package ru.egordubina.pokemon.data.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.egordubina.pokemon.domain.models.Pokemon
+import ru.egordubina.pokemon.ui.screens.detail.PokemonStat
 
 /**
  * @see <a href="https://pokeapi.co/docs/v2">Full API Doc</a>
@@ -26,7 +28,7 @@ data class PokemonDetailApiResponse(
 //    @SerialName("past_types") val pastTypes: List<String>, // Список деталей
     @SerialName("species") val species: Species, // Вид покемона, например бульбазавр (???)
     @SerialName("sprites") val sprites: Sprites, // Спрайты покемона
-    @SerialName("stats") val stats: List<Stat>, // Базовые статистики покемона
+    @SerialName("stats") val stats: List<PokemonStatApiResponse>, // Базовые статистики покемона
     @SerialName("types") val types: List<Type>, // Список типов, к котором относится покемон
     @SerialName("weight") val weight: Int, // Вес покемона
 )
@@ -89,10 +91,10 @@ data class Sprites(
 )
 
 @Serializable
-data class Stat(
+data class PokemonStatApiResponse(
     val base_stat: Int,
     val effort: Int,
-//    val stat: StatX,
+    val stat: Stat,
 )
 
 @Serializable
@@ -414,14 +416,30 @@ data class Showdown(
 //    val front_shiny_female: String,
 //)
 //
-//@Serializable
-//data class StatX(
-//    val name: String,
-//    val url: String,
-//)
+@Serializable
+data class Stat(
+    val name: String,
+    val url: String,
+)
 //
 //@Serializable
 //data class TypeX(
 //    val name: String,
 //    val url: String,
 //)
+
+fun PokemonDetailApiResponse.asDomain(): Pokemon = Pokemon(
+    id = this.id,
+    image = this.sprites.frontDefault ?: "",
+    name = this.name,
+    baseExperience = this.baseExperience,
+    height = this.height,
+    weight = this.weight,
+    pokemonStats = this.stats.map { it.asDomain() }
+)
+
+fun PokemonStatApiResponse.asDomain(): PokemonStat = PokemonStat(
+    baseExp = this.base_stat,
+    effort = this.effort,
+    statName = this.stat.name,
+)

@@ -1,11 +1,14 @@
 package ru.egordubina.pokemon.domain.models
 
+import ru.egordubina.pokemon.ui.screens.detail.PokemonStat
+
 data class Pokemon(
-    val id: Int? = null,
-    val image: String? = null,
-    val name: String? = null,
-    val baseExperience: Int? = null,
-    val weight: Int? = null,
-    val height: Int? = null,
+    val id: Int,
+    val image: String,
+    val name: String,
+    val baseExperience: Int,
+    val weight: Int,
+    val height: Int,
+    val pokemonStats: List<PokemonStat>
 )
 
