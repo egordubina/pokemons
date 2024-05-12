@@ -6,7 +6,7 @@ data class PokemonUiListItem(
     val id: Int,
     val image: String,
     val name: String,
-    val baseExperience: Int,
+    val baseExperience: Int?,
     val height: Int,
     val weight: Int,
 )

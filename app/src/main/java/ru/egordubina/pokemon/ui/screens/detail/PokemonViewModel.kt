@@ -44,6 +44,7 @@ class PokemonViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _uiState.update { it.copy(isError = true) }
             } finally {
                 _uiState.update { it.copy(isLoading = false) }

@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     var pokemonsList: Flow<PagingData<PokemonUiListItem>> =
         loadPokemonsUseCase.pokemons.map { pagingData ->
-            pagingData.filter { it.id != null }.map { pokemon -> pokemon.asUiItem() }
+            pagingData.map { pokemon -> pokemon.asUiItem() }
         }.cachedIn(viewModelScope).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

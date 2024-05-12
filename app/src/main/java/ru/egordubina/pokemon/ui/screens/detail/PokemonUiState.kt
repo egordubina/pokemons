@@ -5,14 +5,14 @@ data class PokemonUiState(
     val isError: Boolean = false,
     val name: String = "",
     val image: String = "",
-    val baseExperience: Int = 0,
+    val baseExperience: Int? = null,
     val height: Int = 0,
     val weight: Int = 0,
     val pokemonStats: List<PokemonStat> = emptyList(),
 )
 
 data class PokemonStat(
-    val baseExp: Int,
-    val effort: Int,
-    val statName: String,
+    val baseExp: Int?,
+    val effort: Int?,
+    val statName: String?,
 )

@@ -12,7 +12,7 @@ import ru.egordubina.pokemon.ui.screens.detail.PokemonStat
 @Serializable
 data class PokemonDetailApiResponse(
     @SerialName("abilities") val abilities: List<Ability>, // Способности
-    @SerialName("base_experience") val baseExperience: Int, // Опыт
+    @SerialName("base_experience") val baseExperience: Int?, // Опыт
 //    @SerialName("cries") val cries: Cries, // Звук, скип
     @SerialName("forms") val forms: List<PokemonForm>, // Форма покемона, например бульбазавр
 //    @SerialName("game_indices") val gameIndices: List<GameIndice>, // Список индексов по поколениям (?)
@@ -92,9 +92,9 @@ data class Sprites(
 
 @Serializable
 data class PokemonStatApiResponse(
-    val base_stat: Int,
-    val effort: Int,
-    val stat: Stat,
+    val base_stat: Int?,
+    val effort: Int?,
+    val stat: Stat?,
 )
 
 @Serializable
@@ -418,8 +418,8 @@ data class Showdown(
 //
 @Serializable
 data class Stat(
-    val name: String,
-    val url: String,
+    val name: String?,
+    val url: String?,
 )
 //
 //@Serializable
@@ -441,5 +441,5 @@ fun PokemonDetailApiResponse.asDomain(): Pokemon = Pokemon(
 fun PokemonStatApiResponse.asDomain(): PokemonStat = PokemonStat(
     baseExp = this.base_stat,
     effort = this.effort,
-    statName = this.stat.name,
+    statName = this.stat?.name,
 )

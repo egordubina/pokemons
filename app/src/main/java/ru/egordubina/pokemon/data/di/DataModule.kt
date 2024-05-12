@@ -14,6 +14,7 @@ import retrofit2.Retrofit
 import ru.egordubina.pokemon.BuildConfig
 import ru.egordubina.pokemon.data.api.PokemonsApiService
 import ru.egordubina.pokemon.data.datasources.PokemonsPagingSource
+import ru.egordubina.pokemon.data.datasources.PokemonsPagingSource.Companion.PAGE_SIZE
 import ru.egordubina.pokemon.data.models.PokemonItemApiResponse
 import ru.egordubina.pokemon.data.repository.PokemonRepositoryImpl
 import ru.egordubina.pokemon.domain.repository.PokemonRepository
@@ -24,7 +25,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-
     @Provides
     @Singleton
     fun provideRetrofitClient(): Retrofit {
@@ -45,12 +45,12 @@ object DataModule {
     fun providePokemonPager(pokemonsApiService: PokemonsApiService): Pager<Int, PokemonItemApiResponse> =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
-                initialLoadSize = 20 * 2,
-                prefetchDistance = 10,
+                pageSize = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE * 2,
+                prefetchDistance = PAGE_SIZE / 2,
                 enablePlaceholders = true,
-                jumpThreshold = 20 * 2,
-                maxSize = 100
+                jumpThreshold = PAGE_SIZE * 3,
+                maxSize = PAGE_SIZE * 5
             ),
             pagingSourceFactory = { PokemonsPagingSource(pokemonsApiService = pokemonsApiService) }
         )

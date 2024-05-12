@@ -51,8 +51,8 @@ fun HomeContent(
     ) {
         items(
             count = pokemons.itemCount,
-            key = pokemons.itemKey { it.id },
-            contentType = pokemons.itemContentType { "Pokemons " },
+//            key = pokemons.itemKey { it.id },
+//            contentType = pokemons.itemContentType { "Pokemons " },
         ) {
             val item = pokemons[it]
             if (item != null)
@@ -98,11 +98,12 @@ private fun PokemonCard(pokemon: PokemonUiListItem, onPokemonClick: (Int) -> Uni
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(
-                        "Base exp: ${pokemon.baseExperience}",
-                        fontFamily = pokemonFontFamily,
-                        style = MaterialTheme.typography.labelLarge
-                    )
+                    if (pokemon.baseExperience != null)
+                        Text(
+                            "Base exp: ${pokemon.baseExperience}",
+                            fontFamily = pokemonFontFamily,
+                            style = MaterialTheme.typography.labelLarge
+                        )
                     Text(
                         "Weight: ${pokemon.weight}",
                         fontFamily = pokemonFontFamily,

@@ -15,21 +15,21 @@ class PokemonsPagingSource @Inject constructor(
     override val jumpingSupported: Boolean = true
     override fun getRefreshKey(state: PagingState<Int, PokemonItemApiResponse>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
-        val page = state.closestPageToPosition(anchorPosition) ?: return null
-        return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
+        val pageIndex = anchorPosition / PAGE_SIZE
+        return pageIndex
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonItemApiResponse> {
         return try {
             val page = params.key ?: 0
             val response = pokemonsApiService.loadPokemons(
-                limit = params.loadSize,
-                offset = params.loadSize * page
+                limit = PAGE_SIZE,
+                offset = PAGE_SIZE * page
             )
-            val nextKey = if (response.results.isEmpty()) null else page.plus(1)
-            val prevKey = if (page == 0) null else page.minus(1)
-            val itemsBefore = page * params.loadSize
+            val itemsBefore = page * PAGE_SIZE
             val itemsAfter = response.count - (itemsBefore + response.results.size)
+            val nextKey = if (itemsAfter == 0) null else page.plus(1)
+            val prevKey = if (page == 0) null else page.minus(1)
             LoadResult.Page(
                 data = response.results,
                 nextKey = nextKey,
@@ -38,7 +38,12 @@ class PokemonsPagingSource @Inject constructor(
                 itemsBefore = itemsBefore
             )
         } catch (e: Exception) {
+            e.printStackTrace()
             LoadResult.Error(e)
         }
+    }
+
+    companion object {
+        const val PAGE_SIZE = 20
     }
 }

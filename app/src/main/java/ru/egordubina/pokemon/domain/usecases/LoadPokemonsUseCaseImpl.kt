@@ -17,6 +17,7 @@ class LoadPokemonsUseCaseImpl @Inject constructor(
             try {
                 pagingData.map { pokemonRepository.loadPokemonDetailInfo(it.name).asDomain() }
             } catch (e: Exception) {
+                e.printStackTrace()
                 PagingData.empty()
             }
         }
