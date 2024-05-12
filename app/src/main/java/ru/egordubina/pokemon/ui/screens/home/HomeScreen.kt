@@ -21,12 +21,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import ru.egordubina.pokemon.R
 import ru.egordubina.pokemon.ui.models.PokemonUiListItem
+import ru.egordubina.pokemon.ui.theme.PokemonTheme
 import ru.egordubina.pokemon.ui.theme.pokemonFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,9 +40,10 @@ fun HomeScreen(
     onPokemonClick: (Int) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Poke", fontFamily = pokemonFontFamily) })
+            CenterAlignedTopAppBar(title = { Text(stringResource(id = R.string.app_name), fontFamily = pokemonFontFamily) })
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
@@ -50,8 +55,8 @@ fun HomeScreen(
         if (pokemons.loadState.append is LoadState.Error)
             LaunchedEffect(key1 = snackBarHostState) {
                 val result = snackBarHostState.showSnackbar(
-                    message = "Покемоны не загрузились",
-                    actionLabel = "Повторить"
+                    message = context.resources.getString(R.string.pokemons_not_load),
+                    actionLabel = context.resources.getString(R.string.retry)
                 )
                 if (result == SnackbarResult.ActionPerformed)
                     pokemons.retry()
@@ -66,6 +71,7 @@ fun HomeScreen(
 
 @Composable
 fun HomeError(onRefreshButtonClick: () -> Unit) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -78,7 +84,7 @@ fun HomeError(onRefreshButtonClick: () -> Unit) {
             contentColor = MaterialTheme.colorScheme.onErrorContainer
         ) {
             Text(
-                text = "Покемоны не загрузились",
+                text = context.resources.getString(R.string.pokemons_not_load),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(16.dp)
             )
@@ -89,7 +95,15 @@ fun HomeError(onRefreshButtonClick: () -> Unit) {
             modifier = Modifier.clip(MaterialTheme.shapes.large)
         )
         Button(onClick = onRefreshButtonClick) {
-            Text(text = "Попробовать ещё раз")
+            Text(text = context.resources.getString(R.string.retry))
         }
+    }
+}
+
+@Preview
+@Composable
+private fun HomeErrorPreview() {
+    PokemonTheme {
+        HomeError {}
     }
 }

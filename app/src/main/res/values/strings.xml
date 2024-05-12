@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Pokemon</string>
+    <string name="app_name">Poke</string>
+    <string name="retry">Повторить</string>
+    <string name="pokemons_not_load">Покемоны не загрузились</string>
 </resources>
